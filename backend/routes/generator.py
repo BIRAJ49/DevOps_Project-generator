@@ -1,13 +1,17 @@
 from uuid import uuid4
 
 from fastapi import APIRouter, Depends, HTTPException, Request, status
-from fastapi.responses import FileResponse
+from sqlalchemy import select
 from sqlalchemy.orm import Session
 
 from backend.auth.dependencies import get_current_user_optional
 from backend.models.database import get_db
-from backend.models.entities import User
-from backend.services.archive_service import create_generation_archive, resolve_archive_path
+from backend.models.entities import GenerationArtifact, User
+from backend.services.archive_service import (
+    build_download_response,
+    create_generation_artifacts,
+    delete_stored_artifacts,
+)
 from backend.services.template_service import TemplateNotFoundError, load_template
 from backend.services.usage_service import (
     GUEST_LIMIT_MESSAGE,
@@ -18,7 +22,7 @@ from backend.services.usage_service import (
 from backend.utils.config import get_settings
 from backend.utils.rate_limiter import rate_limit
 from backend.utils.request import extract_client_ip
-from backend.utils.schemas import GenerateRequest, GenerateResponse
+from backend.utils.schemas import ArtifactFormat, GenerateRequest, GenerateResponse
 
 router = APIRouter(tags=["generator"])
 settings = get_settings()
@@ -51,12 +55,39 @@ def generate_project(
         raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail=str(exc)) from exc
 
     generation_id = uuid4().hex
-    create_generation_archive(
+    owner_reference = f"user-{user.id}" if user is not None else f"guest-{client_ip}"
+    stored_artifacts = create_generation_artifacts(
         generation_id=generation_id,
         project_type=payload.project_type.value,
         difficulty_level=payload.difficulty_level.value,
         generated_project=generated_project,
+        owner_reference=owner_reference,
     )
+
+    artifact_record = GenerationArtifact(
+        generation_id=generation_id,
+        user_id=user.id if user is not None else None,
+        ip_address=client_ip,
+        project_type=payload.project_type.value,
+        difficulty_level=payload.difficulty_level.value,
+        storage_backend=settings.artifact_storage_backend,
+        zip_storage_key=stored_artifacts.zip_artifact.storage_key,
+        zip_filename=stored_artifacts.zip_artifact.filename,
+        pdf_storage_key=stored_artifacts.pdf_artifact.storage_key,
+        pdf_filename=stored_artifacts.pdf_artifact.filename,
+    )
+
+    try:
+        db.add(artifact_record)
+        db.commit()
+        db.refresh(artifact_record)
+    except Exception as exc:
+        db.rollback()
+        delete_stored_artifacts(stored_artifacts)
+        raise HTTPException(
+            status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
+            detail="Failed to persist generated artifact metadata",
+        ) from exc
 
     usage_record = record_usage(db, user=user, ip_address=client_ip)
     guest_requests_remaining = (
@@ -76,21 +107,37 @@ def generate_project(
         steps=generated_project["steps"],
         code_files=generated_project["code_files"],
         readme=generated_project["readme"],
-        download_url=f"{settings.api_prefix}/generate/{generation_id}/download",
+        download_url=f"{settings.api_prefix}/generate/{generation_id}/download/zip",
+        download_zip_url=f"{settings.api_prefix}/generate/{generation_id}/download/zip",
+        download_pdf_url=f"{settings.api_prefix}/generate/{generation_id}/download/pdf",
         is_authenticated=user is not None,
         guest_requests_remaining=guest_requests_remaining,
     )
 
 
-@router.get("/generate/{generation_id}/download")
-def download_generated_project(generation_id: str) -> FileResponse:
-    archive_path = resolve_archive_path(generation_id)
-    if archive_path is None:
+@router.get("/generate/{generation_id}/download/{artifact_format}")
+def download_generated_project(
+    generation_id: str,
+    artifact_format: ArtifactFormat,
+    db: Session = Depends(get_db),
+):
+    artifact = db.scalar(
+        select(GenerationArtifact).where(GenerationArtifact.generation_id == generation_id)
+    )
+    if artifact is None:
         raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail="Download not found")
 
-    return FileResponse(
-        archive_path,
-        media_type="application/zip",
-        filename=archive_path.name,
-    )
+    if artifact_format == ArtifactFormat.zip:
+        return build_download_response(
+            artifact_format=ArtifactFormat.zip,
+            storage_key=artifact.zip_storage_key,
+            filename=artifact.zip_filename,
+            storage_backend=artifact.storage_backend,
+        )
 
+    return build_download_response(
+        artifact_format=ArtifactFormat.pdf,
+        storage_key=artifact.pdf_storage_key,
+        filename=artifact.pdf_filename,
+        storage_backend=artifact.storage_backend,
+    )

@@ -18,6 +18,11 @@ class DifficultyLevel(str, Enum):
     advanced = "advanced"
 
 
+class ArtifactFormat(str, Enum):
+    zip = "zip"
+    pdf = "pdf"
+
+
 class CodeFile(BaseModel):
     path: str
     language: str
@@ -41,6 +46,8 @@ class GenerateResponse(BaseModel):
     code_files: list[CodeFile]
     readme: str
     download_url: str
+    download_zip_url: str
+    download_pdf_url: str
     is_authenticated: bool
     guest_requests_remaining: int | None = None
 
