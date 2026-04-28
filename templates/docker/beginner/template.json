@@ -1,0 +1,19 @@
+{
+  "idea": "Containerized FastAPI health and release notes service",
+  "why_this_project_matters": "This project teaches the basics of image creation, dependency pinning, container health checks, and local orchestration with a small but realistic API.",
+  "architecture": "A single FastAPI container is built from a slim Python base image and started through Docker Compose. Compose maps a single application port, passes runtime configuration through environment variables, and enables a health check endpoint for container status validation.",
+  "tools": [
+    "Docker",
+    "Docker Compose",
+    "FastAPI",
+    "Uvicorn"
+  ],
+  "steps": [
+    "Review the FastAPI application and confirm the health and release endpoints match the project goal.",
+    "Build the image with docker compose build to validate the Dockerfile and dependency layer.",
+    "Start the stack with docker compose up and confirm the /health endpoint returns healthy.",
+    "Inspect container logs and verify the environment variable is injected correctly.",
+    "Extend the API with another endpoint or a small persistence layer once the base workflow is stable."
+  ]
+}
+

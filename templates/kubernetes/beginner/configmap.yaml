@@ -1,0 +1,8 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: release-catalog-config
+data:
+  APP_ENV: production
+  FEATURE_RELEASE_AUDIT: "true"
+

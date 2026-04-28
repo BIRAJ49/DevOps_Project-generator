@@ -1,0 +1,20 @@
+{
+  "idea": "CI/CD pipeline with test, image build, security scan, and staged deployment",
+  "why_this_project_matters": "This template reflects a more realistic delivery path where build quality, artifact creation, and environment-specific deployment all have explicit gates.",
+  "architecture": "A GitHub Actions workflow runs quality checks first, then builds and scans a Docker image. The deployment stage is restricted to the main branch and uses GitHub environments plus secrets to deliver manifests into staging.",
+  "tools": [
+    "GitHub Actions",
+    "Docker",
+    "Trivy",
+    "kubectl",
+    "GitHub Environments"
+  ],
+  "steps": [
+    "Create repository secrets for registry credentials and kubeconfig material.",
+    "Run the pipeline on pull requests so code quality and image validity are enforced before merge.",
+    "Allow only the main branch to publish images and deploy to staging.",
+    "Review vulnerability scan output and fail the build on high-severity findings.",
+    "Promote the same image digest into production using a separate protected environment."
+  ]
+}
+

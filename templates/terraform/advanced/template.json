@@ -1,0 +1,20 @@
+{
+  "idea": "Terraform-managed ECS Fargate service behind an application load balancer",
+  "why_this_project_matters": "This project brings together networking, container runtime configuration, and controlled public ingress in a format common to production platform teams.",
+  "architecture": "Terraform provisions a VPC, public subnets, an application load balancer, and an ECS Fargate service. The task definition pulls a container image from a registry, CloudWatch logs capture runtime output, and the security groups expose only the ALB listener while keeping tasks private.",
+  "tools": [
+    "Terraform",
+    "AWS provider",
+    "Amazon ECS",
+    "Application Load Balancer",
+    "CloudWatch Logs"
+  ],
+  "steps": [
+    "Set the VPC CIDR, subnet ranges, container image, and desired count for your environment.",
+    "Initialize and review the Terraform plan carefully because multiple network-facing resources are created.",
+    "Apply the infrastructure and confirm the ECS service reaches steady state.",
+    "Test the ALB endpoint and verify task logs appear in CloudWatch.",
+    "Add autoscaling, remote state, and deployment pipelines after the base service is stable."
+  ]
+}
+

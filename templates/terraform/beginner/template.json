@@ -1,0 +1,18 @@
+{
+  "idea": "Terraform-managed encrypted artifact bucket for CI outputs",
+  "why_this_project_matters": "This project introduces infrastructure as code with a small but valuable resource that many teams need early: a secure location for build artifacts and release bundles.",
+  "architecture": "Terraform provisions a private S3 bucket with versioning, server-side encryption, and public access blocks. Outputs expose the bucket name and ARN so CI systems can reference them without hardcoded values.",
+  "tools": [
+    "Terraform",
+    "AWS provider",
+    "Amazon S3"
+  ],
+  "steps": [
+    "Initialize the Terraform working directory and review the execution plan.",
+    "Set the required variables for region, environment, and bucket prefix.",
+    "Apply the configuration and confirm the bucket policy and encryption controls.",
+    "Use the outputs in a CI system for artifact uploads.",
+    "Add lifecycle rules or replication once artifact retention requirements are clearer."
+  ]
+}
+

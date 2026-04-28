@@ -1,0 +1,20 @@
+{
+  "idea": "Event-driven deployment tracker with API, worker, and Redis queues",
+  "why_this_project_matters": "This project models a multi-service container platform with asynchronous work, internal networking, and isolated build artifacts.",
+  "architecture": "A FastAPI service receives deployment events and writes them to Redis-backed queues. A worker container consumes queued tasks and records deployment outcomes. Docker Compose creates a private network, starts Redis first, and exposes only the API port to callers.",
+  "tools": [
+    "Docker",
+    "Docker Compose",
+    "FastAPI",
+    "Redis",
+    "Python worker service"
+  ],
+  "steps": [
+    "Build the API and worker images separately to keep responsibilities clear.",
+    "Start Redis, then verify the API container can reach it over the Compose network.",
+    "Submit a deployment event through the API and confirm the worker consumes the queue.",
+    "Add persistent volumes or external queueing when moving beyond local development.",
+    "Extend the worker with retries, backoff, and structured logging for production readiness."
+  ]
+}
+

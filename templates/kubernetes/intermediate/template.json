@@ -1,0 +1,19 @@
+{
+  "idea": "Namespace-isolated deployment with Ingress and horizontal autoscaling",
+  "why_this_project_matters": "This template moves beyond a single workload and introduces the traffic management and scaling controls most teams need in shared clusters.",
+  "architecture": "All resources run in a dedicated namespace. A Deployment serves the application, a Service exposes it internally, an Ingress routes external traffic, and an HPA scales replicas based on CPU utilization.",
+  "tools": [
+    "Kubernetes",
+    "kubectl",
+    "Ingress controller",
+    "Metrics Server"
+  ],
+  "steps": [
+    "Create the namespace and apply the deployment stack into that namespace.",
+    "Confirm the ingress controller and metrics server are installed before enabling external routing and autoscaling.",
+    "Validate HPA target metrics and watch the deployment scale under load.",
+    "Tighten resource requests based on observed usage rather than guesses.",
+    "Add policy controls such as PodDisruptionBudget or NetworkPolicy as the service matures."
+  ]
+}
+

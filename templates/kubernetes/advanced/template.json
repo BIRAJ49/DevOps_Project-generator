@@ -1,0 +1,20 @@
+{
+  "idea": "Blue-green service rollout with ingress, autoscaling, and network policy",
+  "why_this_project_matters": "This project models a safer release process for shared clusters by separating old and new versions and explicitly controlling traffic flow.",
+  "architecture": "Two Deployments represent blue and green versions of the same service. A shared Service forwards traffic to the currently active color, while Ingress exposes the route externally. HPA keeps both versions scalable and NetworkPolicy restricts pod-to-pod communication to expected paths.",
+  "tools": [
+    "Kubernetes",
+    "kubectl",
+    "Ingress controller",
+    "Metrics Server",
+    "NetworkPolicy support"
+  ],
+  "steps": [
+    "Apply the namespace, services, and both deployment manifests.",
+    "Validate that the ingress reaches the blue version before switching traffic selectors.",
+    "Patch the Service selector to point at the green version during rollout testing.",
+    "Monitor autoscaling and pod health during the cutover window.",
+    "Roll back by restoring the Service selector if the green version fails validation."
+  ]
+}
+

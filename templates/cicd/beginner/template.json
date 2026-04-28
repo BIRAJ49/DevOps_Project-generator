@@ -1,0 +1,19 @@
+{
+  "idea": "GitHub Actions pipeline for a containerized Python service",
+  "why_this_project_matters": "This project gives teams a simple but useful CI baseline with linting, tests, and image build validation on every push.",
+  "architecture": "GitHub Actions runs a single workflow that checks out the repository, installs dependencies, runs unit tests, and builds a Docker image. The workflow stops before deployment, keeping the first version focused on confidence-building automation.",
+  "tools": [
+    "GitHub Actions",
+    "Python",
+    "pytest",
+    "Docker"
+  ],
+  "steps": [
+    "Commit the sample application and workflow into a GitHub repository.",
+    "Push a branch and confirm the CI workflow runs linting, tests, and the image build.",
+    "Break a test intentionally to see the failure mode before restoring the passing state.",
+    "Add branch protection once the workflow is stable.",
+    "Extend the pipeline with image publishing or deployment stages when the team is ready."
+  ]
+}
+

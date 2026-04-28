@@ -1,0 +1,20 @@
+{
+  "idea": "Terraform-managed VPC and private build host with SSM access",
+  "why_this_project_matters": "This project adds networking, IAM, and compute in a way that encourages secure administration without opening SSH to the internet.",
+  "architecture": "Terraform provisions a VPC, a private subnet, a security group with tightly scoped egress, and an EC2 instance managed through AWS Systems Manager instead of public SSH exposure. IAM attaches only the SSM-managed instance core policy needed for remote access.",
+  "tools": [
+    "Terraform",
+    "AWS provider",
+    "Amazon VPC",
+    "EC2",
+    "AWS Systems Manager"
+  ],
+  "steps": [
+    "Initialize the Terraform project and provide your target VPC CIDR and AMI values.",
+    "Apply the network and compute resources in a non-production account first.",
+    "Connect to the instance through AWS Systems Manager Session Manager instead of SSH.",
+    "Install build tooling or runners after the base host is reachable.",
+    "Replace the single host with an autoscaled or managed service when usage grows."
+  ]
+}
+

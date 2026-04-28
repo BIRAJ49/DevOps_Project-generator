@@ -1,0 +1,20 @@
+{
+  "idea": "Reusable GitHub Actions pipeline with OIDC-based cloud deploys",
+  "why_this_project_matters": "This project demonstrates a more mature delivery design where build logic is reused, permissions are short-lived, and promotion controls are explicit.",
+  "architecture": "A reusable build workflow handles quality checks and image publishing. A top-level pipeline orchestrates staging and production jobs, assumes cloud roles through GitHub OIDC, and keeps deployment permissions separated by environment.",
+  "tools": [
+    "GitHub Actions reusable workflows",
+    "GitHub OIDC",
+    "Docker",
+    "Cloud IAM roles",
+    "Protected environments"
+  ],
+  "steps": [
+    "Create cloud roles that trust GitHub OIDC for the repository and environment you intend to deploy from.",
+    "Wire repository variables for role ARNs and registry locations rather than hardcoding them in workflow files.",
+    "Use the reusable build workflow from multiple services to reduce duplication and standardize checks.",
+    "Protect production with environment approvals and a separate deployment job.",
+    "Audit workflow permissions regularly and remove scopes the pipeline no longer needs."
+  ]
+}
+

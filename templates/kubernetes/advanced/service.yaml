@@ -1,0 +1,14 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: rollout-service
+  namespace: production-platform
+spec:
+  selector:
+    app: rollout-service
+    color: blue
+  ports:
+    - port: 80
+      targetPort: 8080
+  type: ClusterIP
+

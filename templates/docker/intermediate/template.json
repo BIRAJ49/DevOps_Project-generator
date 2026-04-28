@@ -1,0 +1,20 @@
+{
+  "idea": "Multi-stage FastAPI service behind Nginx with Compose health checks",
+  "why_this_project_matters": "This template adds reverse proxying, multi-stage builds, and a cleaner production path that mirrors common service deployments.",
+  "architecture": "A FastAPI API container serves application traffic on an internal network, while an Nginx container terminates external HTTP requests and forwards them upstream. Docker Compose coordinates startup ordering, network isolation, and health checks for both services.",
+  "tools": [
+    "Docker",
+    "Docker Compose",
+    "FastAPI",
+    "Uvicorn",
+    "Nginx"
+  ],
+  "steps": [
+    "Build the multi-stage image and verify the runtime layer contains only the dependencies you need.",
+    "Start the API and Nginx services through Compose and validate reverse proxy routing.",
+    "Confirm the upstream health endpoint responds through both the internal service name and the public Nginx port.",
+    "Add log forwarding or metrics once the proxy path is working cleanly.",
+    "Promote the same image tag into staging or production to keep environments aligned."
+  ]
+}
+

@@ -1,0 +1,18 @@
+{
+  "idea": "Kubernetes deployment for a release catalog API",
+  "why_this_project_matters": "This project introduces the core Kubernetes objects used in everyday platform work: Deployment, Service, and ConfigMap.",
+  "architecture": "A single Deployment runs multiple replicas of a release catalog container. A ConfigMap injects environment values and a ClusterIP Service exposes the application inside the cluster. Liveness and readiness probes keep traffic away from unhealthy pods.",
+  "tools": [
+    "Kubernetes",
+    "kubectl",
+    "YAML manifests"
+  ],
+  "steps": [
+    "Apply the ConfigMap, Deployment, and Service manifests in order.",
+    "Wait for all pods to become ready and confirm the probes pass.",
+    "Use kubectl port-forward or an ingress controller to access the service.",
+    "Scale the deployment and observe replica scheduling behavior.",
+    "Add ingress, autoscaling, and policy controls once the basics are stable."
+  ]
+}
+

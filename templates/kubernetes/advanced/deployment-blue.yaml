@@ -1,0 +1,31 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: rollout-service-blue
+  namespace: production-platform
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: rollout-service
+      color: blue
+  template:
+    metadata:
+      labels:
+        app: rollout-service
+        color: blue
+    spec:
+      containers:
+        - name: app
+          image: ghcr.io/example/rollout-service:2026.04.1
+          ports:
+            - containerPort: 8080
+          readinessProbe:
+            httpGet:
+              path: /ready
+              port: 8080
+          livenessProbe:
+            httpGet:
+              path: /health
+              port: 8080
+
