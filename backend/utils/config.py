@@ -30,10 +30,6 @@ class Settings(BaseSettings):
     artifact_download_ttl_seconds: int = 900
     archive_directory: Path = BASE_DIR / "generated"
     templates_directory: Path = BASE_DIR / "templates"
-    openrouter_api_key: str | None = None
-    openrouter_model: str = "openrouter/free"
-    openrouter_site_url: str | None = None
-    openrouter_app_title: str = "DevOps Project Generator"
     resend_api_key: str | None = None
     email_from: str = "ProjectForge <onboarding@resend.dev>"
     email_verification_code_ttl_minutes: int = 10
@@ -59,8 +55,6 @@ class Settings(BaseSettings):
         return value
 
     @field_validator(
-        "openrouter_site_url",
-        "openrouter_api_key",
         "aws_region",
         "s3_bucket_name",
         "s3_endpoint_url",

@@ -68,14 +68,6 @@ function formatProjectLabel(value) {
     .replace(/\b\w/g, (letter) => letter.toUpperCase());
 }
 
-function friendlyRequestError(message) {
-  const text = String(message || "");
-  if (text.includes("OpenRouter") || text.includes("AI provider")) {
-    return "AI planning is temporarily unavailable. Try again in a minute.";
-  }
-  return text || "Request failed. Please try again.";
-}
-
 function ProfileMenuItem({ icon: Icon, label, onClick }) {
   return (
     <button type="button" className="profile-menu-item" onClick={onClick}>
@@ -497,7 +489,7 @@ function App() {
       if (requestError.message === GUEST_LIMIT_MESSAGE) {
         openAuth("login");
       } else {
-        setError(friendlyRequestError(requestError.message));
+        setError(requestError.message || "Request failed. Please try again.");
       }
     } finally {
       setSuggestBusy(false);
@@ -547,7 +539,7 @@ function App() {
       if (requestError.message === GUEST_LIMIT_MESSAGE) {
         openAuth("login");
       } else {
-        setError(friendlyRequestError(requestError.message));
+        setError(requestError.message || "Request failed. Please try again.");
       }
     } finally {
       setDetailsBusy(false);

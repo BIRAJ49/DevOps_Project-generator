@@ -4,7 +4,8 @@ from sqlalchemy.orm import Session
 from backend.auth.dependencies import get_current_user_optional
 from backend.models.database import get_db
 from backend.models.entities import User
-from backend.services.openrouter_service import OpenRouterServiceError, get_project_suggestions
+from backend.services.project_idea_catalog import ProjectIdeaCatalogError
+from backend.services.project_planner_service import get_project_suggestions
 from backend.services.usage_service import (
     GUEST_LIMIT_MESSAGE,
     get_guest_requests_used,
@@ -42,7 +43,7 @@ def suggest_projects(
 
     try:
         suggestions = get_project_suggestions(payload.prompt)
-    except OpenRouterServiceError as exc:
+    except ProjectIdeaCatalogError as exc:
         raise HTTPException(
             status_code=status.HTTP_503_SERVICE_UNAVAILABLE,
             detail=str(exc),

@@ -146,7 +146,3 @@ def suggestions_for_prompt(user_prompt: str) -> list[dict[str, str]]:
     )[:RECENT_TITLE_LIMIT]
     random.shuffle(selected)
     return selected
-
-
-def known_topics() -> list[str]:
-    return [str(topic) for topic in _load_catalog()["topics"]]
