@@ -41,8 +41,9 @@ export default function HowItWorks() {
                 Plan → pick → <span>ship</span>
               </h2>
               <p className="hero-copy" style={{ maxWidth: 720 }}>
-                Describe the target system. We generate multiple project
-                options, then expand the option you choose into a detailed
+                Describe the target system. We generate beginner,
+                intermediate, and advanced project options, then expand your
+                chosen option into a detailed
                 implementation blueprint.
               </p>
             </div>
@@ -62,8 +63,9 @@ export default function HowItWorks() {
               <p className="section-kicker">Step 2</p>
               <h3>Pick an option</h3>
               <p>
-                Choose from multiple suggested approaches across web, mobile,
-                AI, data, automation, DevOps, and other software domains.
+                Choose from beginner, intermediate, and advanced suggested
+                approaches across web, mobile, AI, data, automation, DevOps,
+                and other software domains.
               </p>
             </article>
 

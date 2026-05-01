@@ -1,0 +1,471 @@
+{
+  "topics": [
+    "Docker",
+    "Kubernetes",
+    "CI/CD",
+    "Terraform",
+    "AWS",
+    "Linux",
+    "Monitoring",
+    "GitHub Actions",
+    "DevSecOps",
+    "Platform Engineering",
+    "Microservices",
+    "Cloud Security",
+    "Ansible",
+    "Nginx",
+    "Prometheus + Grafana",
+    "GitOps",
+    "Jenkins",
+    "Self-Healing DevOps",
+    "MLOps",
+    "AIOps",
+    "GitLab CI/CD",
+    "Azure",
+    "Google Cloud",
+    "Shell Scripting",
+    "Bash Automation",
+    "Apache",
+    "Load Balancing",
+    "Reverse Proxy",
+    "Cloudflare",
+    "SSL/HTTPS",
+    "Logging",
+    "Prometheus",
+    "Grafana",
+    "ELK Stack",
+    "Loki",
+    "DevOps Automation",
+    "Infrastructure as Code",
+    "Serverless",
+    "API Gateway",
+    "Containerization",
+    "Docker Compose",
+    "Helm Charts",
+    "Kubernetes Operators",
+    "ArgoCD",
+    "Network Security",
+    "Application Security",
+    "Secrets Management",
+    "Vault",
+    "Zero Trust Security",
+    "IAM",
+    "VPC",
+    "EC2",
+    "S3",
+    "RDS",
+    "Lambda",
+    "EKS",
+    "ECS",
+    "CloudWatch",
+    "Auto Scaling",
+    "High Availability",
+    "Disaster Recovery",
+    "Backup Automation",
+    "Cost Optimization",
+    "Internal Developer Platform",
+    "Self-Healing Infrastructure",
+    "AI for DevOps",
+    "Observability",
+    "Site Reliability Engineering",
+    "SRE",
+    "Incident Management",
+    "Blue-Green Deployment",
+    "Canary Deployment",
+    "Rolling Deployment",
+    "Feature Flags",
+    "API Development",
+    "REST API",
+    "GraphQL",
+    "FastAPI",
+    "Node.js",
+    "Express.js",
+    "Django",
+    "Flask",
+    "Spring Boot",
+    "React",
+    "Next.js",
+    "Vue.js",
+    "Angular",
+    "Svelte",
+    "TypeScript",
+    "JavaScript",
+    "Python",
+    "Java",
+    "Go",
+    "Rust",
+    "PHP",
+    "Laravel",
+    "C#",
+    ".NET",
+    "Mobile App",
+    "React Native",
+    "Flutter",
+    "Android Development",
+    "iOS Development",
+    "Database",
+    "SQL",
+    "PostgreSQL",
+    "MySQL",
+    "MongoDB",
+    "Redis",
+    "Firebase",
+    "Supabase",
+    "Authentication",
+    "JWT Authentication",
+    "OAuth",
+    "Role-Based Access Control",
+    "Email Verification",
+    "Password Reset",
+    "Rate Limiting",
+    "Caching",
+    "Message Queue",
+    "RabbitMQ",
+    "Kafka",
+    "WebSockets",
+    "Real-Time Chat App",
+    "E-commerce",
+    "SaaS App",
+    "Admin Dashboard",
+    "Job Portal",
+    "Learning Management System",
+    "Blog Platform",
+    "Portfolio Website",
+    "Social Media App",
+    "Expense Tracker",
+    "Task Management App",
+    "Project Management App",
+    "Inventory Management System",
+    "CRM System",
+    "Booking System",
+    "Payment Integration",
+    "Stripe",
+    "Khalti",
+    "Esewa",
+    "AI Chatbot",
+    "AI Code Assistant",
+    "AI Resume Builder",
+    "AI Project Generator",
+    "AI Content Generator",
+    "Computer Vision",
+    "OCR",
+    "Speech Recognition",
+    "Text-to-Speech",
+    "Recommendation System",
+    "Data Analysis",
+    "Data Visualization",
+    "Machine Learning",
+    "Deep Learning",
+    "Generative AI",
+    "RAG",
+    "Vector Database",
+    "LangChain",
+    "OpenAI API",
+    "Gemini API",
+    "OpenRouter API",
+    "Ollama",
+    "Hugging Face",
+    "Cybersecurity",
+    "Penetration Testing",
+    "Ethical Hacking",
+    "Bug Bounty",
+    "SIEM",
+    "Firewall",
+    "VPN",
+    "Blockchain",
+    "Smart Contracts",
+    "Web3",
+    "NFT Marketplace",
+    "Crypto Wallet",
+    "Game Development",
+    "Unity",
+    "Unreal Engine",
+    "2D Game",
+    "3D Game",
+    "Automation Tool",
+    "Web Scraping",
+    "Browser Automation",
+    "Testing",
+    "Unit Testing",
+    "Integration Testing",
+    "End-to-End Testing",
+    "Playwright",
+    "Selenium",
+    "Postman",
+    "API Testing",
+    "Performance Testing",
+    "Load Testing",
+    "JMeter"
+  ],
+  "aliases": {
+    "CI/CD": ["cicd", "ci cd", "ci-cd"],
+    "GitLab CI/CD": ["gitlab ci", "gitlab cicd", "gitlab ci cd"],
+    "GitHub Actions": ["github action"],
+    "Prometheus + Grafana": ["prometheus grafana", "prometheus and grafana"],
+    "Infrastructure as Code": ["iac"],
+    "Google Cloud": ["gcp"],
+    "SSL/HTTPS": ["ssl", "https", "tls"],
+    "Role-Based Access Control": ["rbac"],
+    "Message Queue": ["message queues"],
+    "Real-Time Chat App": ["realtime chat", "real time chat"],
+    "E-commerce": ["ecommerce"],
+    "Text-to-Speech": ["tts"],
+    "OpenAI API": ["chatgpt api"],
+    "Hugging Face": ["huggingface"],
+    "End-to-End Testing": ["e2e testing", "end to end testing"],
+    ".NET": ["dotnet", "asp.net"],
+    "C#": ["csharp", "c sharp"]
+  },
+  "idea_blueprints": [
+    {
+      "difficulty_level": "beginner",
+      "title": "{topic} Starter Health Dashboard",
+      "rationale": "Build a small dashboard that shows core {topic} status, basic checks, and a clean beginner-friendly workflow."
+    },
+    {
+      "difficulty_level": "beginner",
+      "title": "{topic} Command Cheat Sheet App",
+      "rationale": "Create a searchable reference app for common {topic} commands, patterns, examples, and common mistakes."
+    },
+    {
+      "difficulty_level": "beginner",
+      "title": "{topic} Config Validator",
+      "rationale": "Build a focused tool that validates simple {topic} configuration files and explains errors in plain language."
+    },
+    {
+      "difficulty_level": "beginner",
+      "title": "{topic} Learning Tracker",
+      "rationale": "Create a project that tracks learning goals, completed exercises, notes, and next steps for mastering {topic}."
+    },
+    {
+      "difficulty_level": "beginner",
+      "title": "{topic} Status Page",
+      "rationale": "Build a lightweight status page that reports availability, recent changes, and manual incident notes for a {topic} system."
+    },
+    {
+      "difficulty_level": "beginner",
+      "title": "{topic} Resource Inventory",
+      "rationale": "Create a simple inventory that records {topic} resources, owners, environments, tags, and lifecycle state."
+    },
+    {
+      "difficulty_level": "beginner",
+      "title": "{topic} Local Sandbox",
+      "rationale": "Build a local playground where users can run safe {topic} experiments without affecting production resources."
+    },
+    {
+      "difficulty_level": "beginner",
+      "title": "{topic} Notification Bot",
+      "rationale": "Create a small bot that sends useful {topic} updates to email, Slack, Discord, or a webhook endpoint."
+    },
+    {
+      "difficulty_level": "beginner",
+      "title": "{topic} Checklist Generator",
+      "rationale": "Build a generator that creates setup, review, release, and troubleshooting checklists for common {topic} workflows."
+    },
+    {
+      "difficulty_level": "beginner",
+      "title": "{topic} Mini Admin Panel",
+      "rationale": "Create a compact admin interface for viewing records, editing settings, and managing basic {topic} operations."
+    },
+    {
+      "difficulty_level": "beginner",
+      "title": "{topic} Log Explorer",
+      "rationale": "Build a simple log viewer with filtering, labels, saved searches, and summaries for a small {topic} project."
+    },
+    {
+      "difficulty_level": "beginner",
+      "title": "{topic} Documentation Portal",
+      "rationale": "Create a docs portal that organizes {topic} setup guides, examples, FAQs, diagrams, and runbooks."
+    },
+    {
+      "difficulty_level": "beginner",
+      "title": "{topic} Access Request Form",
+      "rationale": "Build a form workflow for requesting, reviewing, approving, and auditing access to a {topic} resource."
+    },
+    {
+      "difficulty_level": "beginner",
+      "title": "{topic} Simple Metrics API",
+      "rationale": "Create an API that exposes a few useful {topic} metrics and displays them in a minimal frontend."
+    },
+    {
+      "difficulty_level": "beginner",
+      "title": "{topic} Backup Checklist Tool",
+      "rationale": "Build a beginner project that records backup steps, schedules, owners, and verification notes for {topic}."
+    },
+    {
+      "difficulty_level": "beginner",
+      "title": "{topic} Environment Switcher",
+      "rationale": "Create a utility for switching between local, test, staging, and production settings in a {topic} workflow."
+    },
+    {
+      "difficulty_level": "beginner",
+      "title": "{topic} Release Notes Builder",
+      "rationale": "Build a tool that turns completed tasks and commits into structured release notes for a {topic} project."
+    },
+    {
+      "difficulty_level": "intermediate",
+      "title": "{topic} Team Workflow Portal",
+      "rationale": "Build a team-facing portal that coordinates requests, approvals, activity history, and handoffs around {topic}."
+    },
+    {
+      "difficulty_level": "intermediate",
+      "title": "{topic} Multi-Tenant Dashboard",
+      "rationale": "Create a dashboard that separates teams, projects, permissions, and usage data for multiple {topic} tenants."
+    },
+    {
+      "difficulty_level": "intermediate",
+      "title": "{topic} Policy Enforcement Service",
+      "rationale": "Build a service that checks {topic} inputs against rules and blocks risky or incomplete changes."
+    },
+    {
+      "difficulty_level": "intermediate",
+      "title": "{topic} Real-Time Event Monitor",
+      "rationale": "Create a streaming monitor that shows live {topic} events, alerts, filters, and recent activity trends."
+    },
+    {
+      "difficulty_level": "intermediate",
+      "title": "{topic} Automation Control Center",
+      "rationale": "Build a control panel for triggering, scheduling, reviewing, and retrying practical {topic} automation jobs."
+    },
+    {
+      "difficulty_level": "intermediate",
+      "title": "{topic} Cost and Usage Analyzer",
+      "rationale": "Create an analyzer that tracks {topic} usage, estimates cost, flags waste, and recommends cleanup actions."
+    },
+    {
+      "difficulty_level": "intermediate",
+      "title": "{topic} Incident Response Console",
+      "rationale": "Build a console for recording {topic} incidents, assigning owners, tracking timelines, and linking remediation work."
+    },
+    {
+      "difficulty_level": "intermediate",
+      "title": "{topic} Secure File Processing Pipeline",
+      "rationale": "Create a pipeline that accepts files, validates them, stores results, and reports processing status for {topic}."
+    },
+    {
+      "difficulty_level": "intermediate",
+      "title": "{topic} API Gateway Integration Lab",
+      "rationale": "Build an integration lab that exposes {topic} features through versioned APIs, auth, rate limits, and logs."
+    },
+    {
+      "difficulty_level": "intermediate",
+      "title": "{topic} Self-Service Template Generator",
+      "rationale": "Create a generator that produces reusable {topic} starter files, docs, and review checklists from form inputs."
+    },
+    {
+      "difficulty_level": "intermediate",
+      "title": "{topic} Role-Based Operations Panel",
+      "rationale": "Build an operations panel with scoped roles, audit logs, workflow states, and protected {topic} actions."
+    },
+    {
+      "difficulty_level": "intermediate",
+      "title": "{topic} Audit Trail Service",
+      "rationale": "Create a service that records who changed what, when it happened, and why for critical {topic} workflows."
+    },
+    {
+      "difficulty_level": "intermediate",
+      "title": "{topic} Data Sync Platform",
+      "rationale": "Build a platform that synchronizes {topic} data between systems with retries, conflict handling, and dashboards."
+    },
+    {
+      "difficulty_level": "intermediate",
+      "title": "{topic} Performance Benchmark Suite",
+      "rationale": "Create repeatable benchmarks that measure {topic} latency, throughput, resource use, and regression trends."
+    },
+    {
+      "difficulty_level": "intermediate",
+      "title": "{topic} Integration Testing Harness",
+      "rationale": "Build a harness that runs realistic {topic} integration scenarios, captures failures, and publishes test reports."
+    },
+    {
+      "difficulty_level": "intermediate",
+      "title": "{topic} Webhook Automation Hub",
+      "rationale": "Create a webhook hub that receives {topic} events, validates payloads, routes actions, and records outcomes."
+    },
+    {
+      "difficulty_level": "intermediate",
+      "title": "{topic} Feature Flag Control Plane",
+      "rationale": "Build a control plane for enabling, targeting, auditing, and rolling back {topic} feature flags."
+    },
+    {
+      "difficulty_level": "advanced",
+      "title": "{topic} Production Readiness Platform",
+      "rationale": "Build an advanced platform that scores {topic} projects against reliability, security, testing, and release standards."
+    },
+    {
+      "difficulty_level": "advanced",
+      "title": "{topic} Self-Healing Operations System",
+      "rationale": "Create a system that detects {topic} failures, runs approved remediation steps, and records recovery evidence."
+    },
+    {
+      "difficulty_level": "advanced",
+      "title": "{topic} Zero Trust Deployment Blueprint",
+      "rationale": "Build a secure {topic} reference implementation with least privilege, identity checks, audit logs, and secret isolation."
+    },
+    {
+      "difficulty_level": "advanced",
+      "title": "{topic} High Availability Reference Stack",
+      "rationale": "Create a highly available {topic} architecture with redundancy, health checks, failover behavior, and recovery tests."
+    },
+    {
+      "difficulty_level": "advanced",
+      "title": "{topic} Disaster Recovery Orchestrator",
+      "rationale": "Build an orchestrator for {topic} backup validation, restore drills, RTO/RPO tracking, and incident reports."
+    },
+    {
+      "difficulty_level": "advanced",
+      "title": "{topic} Observability and SLO Platform",
+      "rationale": "Create a platform that combines {topic} metrics, logs, traces, alerts, service objectives, and burn-rate reporting."
+    },
+    {
+      "difficulty_level": "advanced",
+      "title": "{topic} Multi-Region Control Plane",
+      "rationale": "Build a control plane that manages {topic} configuration, rollout status, and policy across multiple regions."
+    },
+    {
+      "difficulty_level": "advanced",
+      "title": "{topic} AI-Assisted Troubleshooting Copilot",
+      "rationale": "Create a copilot that summarizes {topic} signals, suggests root causes, and links safe remediation playbooks."
+    },
+    {
+      "difficulty_level": "advanced",
+      "title": "{topic} Compliance Evidence Automation",
+      "rationale": "Build automation that collects {topic} evidence, maps it to controls, and generates reviewer-ready reports."
+    },
+    {
+      "difficulty_level": "advanced",
+      "title": "{topic} Scalable Event-Driven Platform",
+      "rationale": "Create an event-driven {topic} system with queues, workers, retries, dead-letter handling, and observability."
+    },
+    {
+      "difficulty_level": "advanced",
+      "title": "{topic} Enterprise Migration Toolkit",
+      "rationale": "Build a toolkit that plans, validates, executes, and rolls back complex migrations for {topic} workloads."
+    },
+    {
+      "difficulty_level": "advanced",
+      "title": "{topic} Resilient Marketplace Backend",
+      "rationale": "Create a production-style backend that uses {topic} concepts for payments, inventory, async work, and operations."
+    },
+    {
+      "difficulty_level": "advanced",
+      "title": "{topic} Secure Developer Platform",
+      "rationale": "Build a platform that gives developers self-service {topic} workflows with guardrails, templates, and auditability."
+    },
+    {
+      "difficulty_level": "advanced",
+      "title": "{topic} Autonomous Optimization Engine",
+      "rationale": "Create an engine that analyzes {topic} signals and recommends performance, cost, security, or reliability improvements."
+    },
+    {
+      "difficulty_level": "advanced",
+      "title": "{topic} Advanced Analytics Workspace",
+      "rationale": "Build a workspace for analyzing {topic} trends, comparing environments, exporting reports, and sharing insights."
+    },
+    {
+      "difficulty_level": "advanced",
+      "title": "{topic} End-to-End Capstone Platform",
+      "rationale": "Create a complete {topic} capstone with authentication, APIs, automation, deployment, monitoring, and documentation."
+    }
+  ]
+}

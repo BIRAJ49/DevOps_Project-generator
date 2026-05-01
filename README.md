@@ -9,7 +9,7 @@ ProjectForge is a SaaS-style full-stack app that uses OpenRouter to suggest soft
 - JWT authentication with bcrypt password hashing.
 - PostgreSQL persistence through SQLAlchemy ORM.
 - Basic API rate limiting and origin-restricted CORS.
-- OpenRouter-powered project suggestions across web, mobile, AI, data, DevOps, automation, games, and other software domains.
+- Template-backed project suggestions for DevOps, cloud, backend, frontend, mobile, AI, data, security, testing, payment, and app topics.
 - Local template library with ZIP and PDF downloads for generated starter bundles.
 - Artifact storage that can run locally or upload to private S3 with presigned downloads.
 
@@ -34,7 +34,8 @@ DevOps_Project_generator/
 │   ├── docker/
 │   ├── kubernetes/
 │   ├── cicd/
-│   └── terraform/
+│   ├── terraform/
+│   └── project_ideas/
 ├── .env.example
 └── README.md
 ```
@@ -78,7 +79,7 @@ DevOps_Project_generator/
 
 ## Environment Variables
 
-Root `.env`:
+Root `.env` or backend-only `backend/.env`:
 
 - `JWT_SECRET_KEY`
 - `JWT_ALGORITHM`
@@ -86,7 +87,7 @@ Root `.env`:
 - `DATABASE_URL`
 - `FRONTEND_ORIGINS`
 - `TRUSTED_PROXY_IPS`
-- `OPENROUTER_API_KEY` (required for AI suggestions and details)
+- `OPENROUTER_API_KEY` (used only by the FastAPI backend)
 - `OPENROUTER_MODEL`
 - `OPENROUTER_SITE_URL`
 - `OPENROUTER_APP_TITLE`
@@ -131,9 +132,11 @@ Frontend `frontend/.env`:
 - Kubernetes: beginner, intermediate, advanced
 - CI/CD: beginner, intermediate, advanced
 - Terraform: beginner, intermediate, advanced
+- Project ideas: 50 reusable idea blueprints for each supported topic in `templates/project_ideas/catalog.json`
 
 ## Notes
 
-- `OPENROUTER_API_KEY` is required for the AI planner. Without it, `/api/suggest` and `/api/details` return a service-unavailable error instead of reusing local template suggestions.
+- `/api/suggest` uses the local project idea catalog so repeated requests can return different project ideas without depending on an AI provider.
+- Put the OpenRouter key in `backend/.env` or the root `.env`; never put it in `frontend/.env`.
 - Terraform and CI/CD templates intentionally use placeholders for cloud roles, image tags, and deployment hosts.
 - Local artifacts are written to `generated/` when `ARTIFACT_STORAGE_BACKEND=local`.

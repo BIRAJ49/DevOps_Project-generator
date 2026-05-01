@@ -33,8 +33,7 @@ class Settings(BaseSettings):
     openrouter_api_key: str | None = None
     openrouter_model: str = "openrouter/free"
     openrouter_site_url: str | None = None
-    openrouter_app_title: str = "ProjectForge"
-    ai_model: str | None = None
+    openrouter_app_title: str = "DevOps Project Generator"
     resend_api_key: str | None = None
     email_from: str = "ProjectForge <onboarding@resend.dev>"
     email_verification_code_ttl_minutes: int = 10
@@ -46,7 +45,7 @@ class Settings(BaseSettings):
     s3_endpoint_url: str | None = None
 
     model_config = SettingsConfigDict(
-        env_file=BASE_DIR / ".env",
+        env_file=(BASE_DIR / ".env", BASE_DIR / "backend" / ".env"),
         env_file_encoding="utf-8",
         extra="ignore",
         case_sensitive=False,
@@ -62,7 +61,6 @@ class Settings(BaseSettings):
     @field_validator(
         "openrouter_site_url",
         "openrouter_api_key",
-        "ai_model",
         "aws_region",
         "s3_bucket_name",
         "s3_endpoint_url",
@@ -76,9 +74,6 @@ class Settings(BaseSettings):
 
     @model_validator(mode="after")
     def validate_storage_backend(self) -> "Settings":
-        if self.ai_model and self.openrouter_model == "openrouter/free":
-            self.openrouter_model = self.ai_model
-
         if self.artifact_storage_backend == "s3":
             missing = []
             if not self.aws_region:

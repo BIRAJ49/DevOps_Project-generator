@@ -25,12 +25,14 @@ const THEME_OPTIONS = [
 ];
 
 const TECH_TAGS = [
-  "React + Node.js",
-  "Mobile app",
-  "AI chatbot",
-  "E-commerce",
-  "Game project",
-  "Automation tool",
+  "Docker",
+  "Kubernetes",
+  "GitHub Actions",
+  "React",
+  "Python",
+  "AI Chatbot",
+  "Stripe",
+  "MLOps",
 ];
 
 const GUEST_LIMIT_MESSAGE = "Login required to continue";
@@ -64,6 +66,14 @@ function formatProjectLabel(value) {
   return String(value || "")
     .replace(/[_-]+/g, " ")
     .replace(/\b\w/g, (letter) => letter.toUpperCase());
+}
+
+function friendlyRequestError(message) {
+  const text = String(message || "");
+  if (text.includes("OpenRouter") || text.includes("AI provider")) {
+    return "AI planning is temporarily unavailable. Try again in a minute.";
+  }
+  return text || "Request failed. Please try again.";
 }
 
 function ProfileMenuItem({ icon: Icon, label, onClick }) {
@@ -487,7 +497,7 @@ function App() {
       if (requestError.message === GUEST_LIMIT_MESSAGE) {
         openAuth("login");
       } else {
-        setError(requestError.message);
+        setError(friendlyRequestError(requestError.message));
       }
     } finally {
       setSuggestBusy(false);
@@ -537,7 +547,7 @@ function App() {
       if (requestError.message === GUEST_LIMIT_MESSAGE) {
         openAuth("login");
       } else {
-        setError(requestError.message);
+        setError(friendlyRequestError(requestError.message));
       }
     } finally {
       setDetailsBusy(false);
@@ -763,11 +773,11 @@ function App() {
         <section className="suggest-panel" id="suggest">
           <div className="suggest-header">
             <div>
-              <p className="section-kicker">AI Planner</p>
+              <p className="section-kicker">Template Planner</p>
               <h3>Describe what you want to build</h3>
               <p>
-                We’ll suggest multiple project options, then generate full
-                details for your pick.
+                We’ll suggest beginner, intermediate, and advanced project
+                options, then generate full details for your pick.
               </p>
             </div>
           </div>
