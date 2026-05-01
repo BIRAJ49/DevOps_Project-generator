@@ -1,7 +1,7 @@
 from dataclasses import dataclass
 from html import escape
 from io import BytesIO
-from pathlib import Path
+from pathlib import Path, PurePosixPath
 from zipfile import ZIP_DEFLATED, ZipFile
 
 import boto3
@@ -54,6 +54,13 @@ def _bundle_root(project_type: str, difficulty_level: str) -> str:
     return f"{project_type}-{difficulty_level}-starter"
 
 
+def _safe_archive_path(bundle_root: str, relative_path: str) -> str:
+    archive_path = PurePosixPath(bundle_root, relative_path)
+    if archive_path.is_absolute() or ".." in archive_path.parts:
+        raise ValueError("Unsafe archive path")
+    return archive_path.as_posix()
+
+
 def build_generation_zip(
     generation_id: str,
     project_type: str,
@@ -91,7 +98,10 @@ def build_generation_zip(
         )
 
         for code_file in generated_project["code_files"]:
-            archive.writestr(f"{bundle_root}/{code_file.path}", code_file.content)
+            archive.writestr(
+                _safe_archive_path(bundle_root, code_file.path),
+                code_file.content,
+            )
 
     return ArtifactPayload(
         artifact_format=ArtifactFormat.zip,
@@ -191,6 +201,18 @@ def _local_storage_root() -> Path:
     return settings.archive_directory
 
 
+def _resolve_local_artifact_path(storage_key: str, *, must_exist: bool = False) -> Path:
+    root = _local_storage_root().resolve()
+    artifact_path = (root / Path(storage_key)).resolve()
+
+    if artifact_path == root or root not in artifact_path.parents:
+        raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail="Download not found")
+    if must_exist and not artifact_path.is_file():
+        raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail="Download not found")
+
+    return artifact_path
+
+
 def _s3_client():
     return boto3.client(
         "s3",
@@ -223,12 +245,11 @@ def _store_artifacts_locally(
     storage_prefix: str,
     payloads: list[ArtifactPayload],
 ) -> StoredArtifactSet:
-    root = _local_storage_root()
     stored_artifacts: dict[ArtifactFormat, StoredArtifact] = {}
 
     for payload in payloads:
         storage_key = f"{storage_prefix}/{payload.filename}"
-        artifact_path = root / Path(storage_key)
+        artifact_path = _resolve_local_artifact_path(storage_key)
         artifact_path.parent.mkdir(parents=True, exist_ok=True)
         artifact_path.write_bytes(payload.body)
         stored_artifacts[payload.artifact_format] = StoredArtifact(
@@ -281,7 +302,10 @@ def delete_stored_artifacts(artifacts: StoredArtifactSet) -> None:
         return
 
     for artifact in (artifacts.zip_artifact, artifacts.pdf_artifact):
-        artifact_path = _local_storage_root() / Path(artifact.storage_key)
+        try:
+            artifact_path = _resolve_local_artifact_path(artifact.storage_key)
+        except HTTPException:
+            continue
         artifact_path.unlink(missing_ok=True)
 
 
@@ -306,8 +330,6 @@ def build_download_response(
         )
         return RedirectResponse(url=url, status_code=status.HTTP_307_TEMPORARY_REDIRECT)
 
-    artifact_path = _local_storage_root() / Path(storage_key)
-    if not artifact_path.exists():
-        raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail="Download not found")
+    artifact_path = _resolve_local_artifact_path(storage_key, must_exist=True)
 
     return FileResponse(artifact_path, media_type=content_type, filename=filename)

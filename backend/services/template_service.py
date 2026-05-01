@@ -39,6 +39,17 @@ def _resolve_template_dir(project_type: ProjectType, difficulty_level: Difficult
     return template_dir
 
 
+def _safe_template_file(template_dir: Path, file_path: Path) -> Path:
+    if file_path.is_symlink() or not file_path.is_file():
+        raise TemplateNotFoundError("Template contains an invalid file reference")
+
+    resolved_file = file_path.resolve()
+    if template_dir not in resolved_file.parents:
+        raise TemplateNotFoundError("Template file escapes the template directory")
+
+    return resolved_file
+
+
 def load_template(project_type: ProjectType, difficulty_level: DifficultyLevel) -> dict:
     template_dir = _resolve_template_dir(project_type, difficulty_level)
     manifest_path = template_dir / "template.json"
@@ -47,12 +58,19 @@ def load_template(project_type: ProjectType, difficulty_level: DifficultyLevel) 
     if not manifest_path.exists() or not readme_path.exists():
         raise TemplateNotFoundError("Template metadata is incomplete")
 
-    manifest = json.loads(manifest_path.read_text(encoding="utf-8"))
+    manifest = json.loads(
+        _safe_template_file(template_dir, manifest_path).read_text(encoding="utf-8")
+    )
     code_files: list[CodeFile] = []
 
     for file_path in sorted(template_dir.rglob("*")):
-        if not file_path.is_file():
+        if file_path.is_symlink() or not file_path.is_file():
             continue
+
+        resolved_file = file_path.resolve()
+        if template_dir not in resolved_file.parents:
+            raise TemplateNotFoundError("Template file escapes the template directory")
+
         relative_path = file_path.relative_to(template_dir).as_posix()
         if relative_path in {"template.json", "README.md"}:
             continue
@@ -61,7 +79,7 @@ def load_template(project_type: ProjectType, difficulty_level: DifficultyLevel) 
             CodeFile(
                 path=relative_path,
                 language=_guess_language(file_path),
-                content=file_path.read_text(encoding="utf-8"),
+                content=resolved_file.read_text(encoding="utf-8"),
             )
         )
 
@@ -72,6 +90,7 @@ def load_template(project_type: ProjectType, difficulty_level: DifficultyLevel) 
         "tools": manifest["tools"],
         "steps": manifest["steps"],
         "code_files": code_files,
-        "readme": readme_path.read_text(encoding="utf-8"),
+        "readme": _safe_template_file(template_dir, readme_path).read_text(
+            encoding="utf-8"
+        ),
     }
-

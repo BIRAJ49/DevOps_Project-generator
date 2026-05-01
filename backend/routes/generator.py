@@ -27,7 +27,10 @@ from backend.utils.schemas import ArtifactFormat, GenerateRequest, GenerateRespo
 router = APIRouter(tags=["generator"])
 settings = get_settings()
 generate_rate_limit = rate_limit(
-    "generate", settings.rate_limit_max_requests, settings.rate_limit_window_seconds
+    "generate",
+    settings.rate_limit_max_requests,
+    settings.rate_limit_window_seconds,
+    settings.rate_limit_max_buckets,
 )
 
 
