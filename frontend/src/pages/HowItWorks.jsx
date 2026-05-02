@@ -11,7 +11,7 @@ export default function HowItWorks() {
               <InfinityLogo size={66} />
             </span>
             <span className="brand-text">
-              Project<span>Forge</span>
+              Project<span>Ops</span>
             </span>
           </Link>
 
@@ -36,15 +36,14 @@ export default function HowItWorks() {
         <section className="results-panel">
           <div className="results-head">
             <div>
-              <p className="section-kicker">// how it works</p>
+              <p className="section-kicker"></p>
               <h2>
                 Plan → pick → <span>ship</span>
               </h2>
               <p className="hero-copy" style={{ maxWidth: 720 }}>
-                Describe the target system. We generate beginner,
-                intermediate, and advanced project options, then expand your
-                chosen option into a detailed
-                implementation blueprint.
+                Describe the target system. We generate beginner, intermediate,
+                and advanced project options, then expand your chosen option
+                into a detailed implementation blueprint.
               </p>
             </div>
           </div>
@@ -64,8 +63,8 @@ export default function HowItWorks() {
               <h3>Pick an option</h3>
               <p>
                 Choose from beginner, intermediate, and advanced suggested
-                approaches across web, mobile, AI, data, automation, DevOps,
-                and other software domains.
+                approaches across web, mobile, AI, data, automation, DevOps, and
+                other software domains.
               </p>
             </article>
 

@@ -7,6 +7,7 @@ from backend.models.base import Base
 from backend.models.database import engine
 from backend.models.migrations import ensure_runtime_schema
 from backend.routes.auth import router as auth_router
+from backend.routes.contact import router as contact_router
 from backend.routes.details import router as details_router
 from backend.routes.generator import router as generator_router
 from backend.routes.suggest import router as suggest_router
@@ -39,6 +40,7 @@ app.add_middleware(
 )
 
 app.include_router(auth_router, prefix=settings.api_prefix)
+app.include_router(contact_router, prefix=settings.api_prefix)
 app.include_router(generator_router, prefix=settings.api_prefix)
 app.include_router(suggest_router, prefix=settings.api_prefix)
 app.include_router(details_router, prefix=settings.api_prefix)

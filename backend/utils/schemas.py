@@ -93,6 +93,22 @@ class ProjectDetailsResponse(BaseModel):
     guest_requests_remaining: int | None = None
 
 
+class ContactRequest(BaseModel):
+    name: Annotated[str, StringConstraints(strip_whitespace=True, min_length=1, max_length=120)]
+    email: EmailStr
+    subject: Annotated[str, StringConstraints(strip_whitespace=True, min_length=1, max_length=180)]
+    message: Annotated[str, StringConstraints(strip_whitespace=True, min_length=1, max_length=5000)]
+
+    @field_validator("email")
+    @classmethod
+    def normalize_email(cls, value: str) -> str:
+        return value.strip().lower()
+
+
+class ContactResponse(BaseModel):
+    message: str
+
+
 class UserResponse(BaseModel):
     model_config = ConfigDict(from_attributes=True)
 
@@ -158,6 +174,16 @@ class PasswordResetConfirmRequest(BaseModel):
     email: EmailStr
     code: Annotated[str, StringConstraints(strip_whitespace=True, min_length=6, max_length=6)]
     password: Annotated[str, StringConstraints(min_length=8, max_length=72)]
+
+    @field_validator("email")
+    @classmethod
+    def normalize_email(cls, value: str) -> str:
+        return value.strip().lower()
+
+
+class PasswordResetVerifyRequest(BaseModel):
+    email: EmailStr
+    code: Annotated[str, StringConstraints(strip_whitespace=True, min_length=6, max_length=6)]
 
     @field_validator("email")
     @classmethod

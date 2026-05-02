@@ -23,6 +23,7 @@ from backend.utils.schemas import (
     PasswordResetConfirmRequest,
     PasswordResetRequest,
     PasswordResetResponse,
+    PasswordResetVerifyRequest,
     ResendVerificationRequest,
     SignupRequest,
     SignupResponse,
@@ -210,13 +211,12 @@ def forgot_password(
     payload: PasswordResetRequest,
     db: Session = Depends(get_db),
 ) -> PasswordResetResponse:
-    response = PasswordResetResponse(
-        email=payload.email,
-        message="If an account exists, a password reset code has been sent.",
-    )
     user = db.scalar(select(User).where(User.email == payload.email))
     if user is None:
-        return response
+        raise HTTPException(
+            status_code=status.HTTP_404_NOT_FOUND,
+            detail="No account found for this email. Sign up first.",
+        )
     if not can_resend_verification(user):
         raise HTTPException(
             status_code=status.HTTP_429_TOO_MANY_REQUESTS,
@@ -234,7 +234,43 @@ def forgot_password(
         ) from exc
     db.commit()
 
-    return PasswordResetResponse(email=user.email, message=response.message)
+    return PasswordResetResponse(
+        email=user.email,
+        message="Password reset code sent. Check your email.",
+    )
+
+
+@router.post(
+    "/verify-reset-code",
+    response_model=PasswordResetResponse,
+    dependencies=[Depends(auth_rate_limit)],
+)
+def verify_reset_code(
+    payload: PasswordResetVerifyRequest,
+    db: Session = Depends(get_db),
+) -> PasswordResetResponse:
+    user = db.scalar(select(User).where(User.email == payload.email))
+    if user is None:
+        raise HTTPException(status_code=status.HTTP_400_BAD_REQUEST, detail="Invalid code")
+    if (
+        user.email_verification_attempts >= settings.email_verification_max_attempts
+        or user.email_verification_expires_at is None
+        or _code_expired(user)
+    ):
+        raise HTTPException(
+            status_code=status.HTTP_400_BAD_REQUEST,
+            detail="Reset code expired. Request a new code.",
+        )
+
+    if not verification_code_matches(user, payload.code):
+        user.email_verification_attempts += 1
+        db.commit()
+        raise HTTPException(status_code=status.HTTP_400_BAD_REQUEST, detail="Invalid code")
+
+    return PasswordResetResponse(
+        email=user.email,
+        message="Code verified. Choose a new password.",
+    )
 
 
 @router.post(

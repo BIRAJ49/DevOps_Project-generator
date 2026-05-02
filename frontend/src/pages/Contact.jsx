@@ -2,6 +2,7 @@ import { Link } from "react-router-dom";
 import { Mail, Send } from "lucide-react";
 import { useState } from "react";
 import { InfinityLogo } from "../components/InfinityLogo";
+import { request } from "../api";
 
 const INITIAL_FORM = {
   name: "",
@@ -13,6 +14,8 @@ const INITIAL_FORM = {
 export default function Contact() {
   const [form, setForm] = useState(INITIAL_FORM);
   const [submitted, setSubmitted] = useState(false);
+  const [error, setError] = useState("");
+  const [busy, setBusy] = useState(false);
 
   function updateField(field, value) {
     setForm((current) => ({
@@ -20,12 +23,27 @@ export default function Contact() {
       [field]: value,
     }));
     setSubmitted(false);
+    setError("");
   }
 
-  function handleSubmit(event) {
+  async function handleSubmit(event) {
     event.preventDefault();
-    setSubmitted(true);
-    setForm(INITIAL_FORM);
+    setBusy(true);
+    setSubmitted(false);
+    setError("");
+
+    try {
+      await request("/api/contact", {
+        method: "POST",
+        body: JSON.stringify(form),
+      });
+      setSubmitted(true);
+      setForm(INITIAL_FORM);
+    } catch (requestError) {
+      setError(requestError.message || "Failed to send your message.");
+    } finally {
+      setBusy(false);
+    }
   }
 
   return (
@@ -37,7 +55,7 @@ export default function Contact() {
               <InfinityLogo size={66} />
             </span>
             <span className="brand-text">
-              Project<span>Forge</span>
+              Project<span>Ops</span>
             </span>
           </Link>
 
@@ -118,14 +136,19 @@ export default function Contact() {
                 />
               </label>
 
-              <button type="submit" className="contact-submit">
-                <span>Send message</span>
+              <button type="submit" className="contact-submit" disabled={busy}>
+                <span>{busy ? "Sending..." : "Send message"}</span>
                 <Send size={20} />
               </button>
 
               {submitted ? (
                 <div className="feedback success" role="status">
                   Thank you for your message. We’ll get back to you soon.
+                </div>
+              ) : null}
+              {error ? (
+                <div className="feedback error" role="alert">
+                  {error}
                 </div>
               ) : null}
             </form>
@@ -135,7 +158,7 @@ export default function Contact() {
                 <Mail size={20} />
                 <div>
                   <p className="section-kicker">Email</p>
-                  <a href="mailto:support@example.com">support@example.com</a>
+                  <a href="mailto:terms301@gmail.com">terms301@gmail.com</a>
                 </div>
               </article>
 

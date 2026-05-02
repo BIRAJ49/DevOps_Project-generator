@@ -9,7 +9,7 @@ BASE_DIR = Path(__file__).resolve().parents[2]
 
 
 class Settings(BaseSettings):
-    app_name: str = "Project Generator API"
+    app_name: str = "ProjectOps API"
     api_prefix: str = "/api"
     database_url: str = (
         "postgresql+psycopg://postgres:postgres@127.0.0.1:5432/devops_project_generator"
@@ -31,7 +31,8 @@ class Settings(BaseSettings):
     archive_directory: Path = BASE_DIR / "generated"
     templates_directory: Path = BASE_DIR / "templates"
     resend_api_key: str | None = None
-    email_from: str = "ProjectForge <onboarding@resend.dev>"
+    email_from: str = "ProjectOps <onboarding@resend.dev>"
+    contact_recipient_email: str = "terms301@gmail.com"
     email_verification_code_ttl_minutes: int = 10
     email_verification_resend_cooldown_seconds: int = 60
     email_verification_max_attempts: int = 5

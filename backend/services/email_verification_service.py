@@ -71,14 +71,14 @@ def send_verification_email(email: str, code: str) -> None:
     payload = {
         "from": settings.email_from,
         "to": [email],
-        "subject": "Your ProjectForge verification code",
+        "subject": "Your ProjectOps verification code",
         "html": (
-            "<p>Use this verification code to finish creating your ProjectForge account:</p>"
+            "<p>Use this verification code to finish creating your ProjectOps account:</p>"
             f"<p style=\"font-size:28px;font-weight:700;letter-spacing:4px\">{code}</p>"
             f"<p>This code expires in {settings.email_verification_code_ttl_minutes} minutes.</p>"
         ),
         "text": (
-            "Use this verification code to finish creating your ProjectForge account: "
+            "Use this verification code to finish creating your ProjectOps account: "
             f"{code}\n\nThis code expires in "
             f"{settings.email_verification_code_ttl_minutes} minutes."
         ),
@@ -93,8 +93,11 @@ def send_verification_email(email: str, code: str) -> None:
         with httpx.Client(timeout=15.0) as client:
             response = client.post("https://api.resend.com/emails", json=payload, headers=headers)
             response.raise_for_status()
+    except httpx.HTTPStatusError as exc:
+        detail = exc.response.text[:300]
+        raise EmailDeliveryError(f"Failed to send verification email: {detail}") from exc
     except httpx.HTTPError as exc:
-        raise EmailDeliveryError("Failed to send verification email") from exc
+        raise EmailDeliveryError(f"Failed to send verification email: {exc}") from exc
 
 
 def send_password_reset_email(email: str, code: str) -> None:
@@ -104,15 +107,15 @@ def send_password_reset_email(email: str, code: str) -> None:
     payload = {
         "from": settings.email_from,
         "to": [email],
-        "subject": "Your ProjectForge password reset code",
+        "subject": "Your ProjectOps password reset code",
         "html": (
-            "<p>Use this verification code to reset your ProjectForge password:</p>"
+            "<p>Use this verification code to reset your ProjectOps password:</p>"
             f"<p style=\"font-size:28px;font-weight:700;letter-spacing:4px\">{code}</p>"
             f"<p>This code expires in {settings.email_verification_code_ttl_minutes} minutes.</p>"
             "<p>If you did not request this, you can ignore this email.</p>"
         ),
         "text": (
-            "Use this verification code to reset your ProjectForge password: "
+            "Use this verification code to reset your ProjectOps password: "
             f"{code}\n\nThis code expires in "
             f"{settings.email_verification_code_ttl_minutes} minutes.\n\n"
             "If you did not request this, you can ignore this email."
@@ -128,8 +131,11 @@ def send_password_reset_email(email: str, code: str) -> None:
         with httpx.Client(timeout=15.0) as client:
             response = client.post("https://api.resend.com/emails", json=payload, headers=headers)
             response.raise_for_status()
+    except httpx.HTTPStatusError as exc:
+        detail = exc.response.text[:300]
+        raise EmailDeliveryError(f"Failed to send password reset email: {detail}") from exc
     except httpx.HTTPError as exc:
-        raise EmailDeliveryError("Failed to send password reset email") from exc
+        raise EmailDeliveryError(f"Failed to send password reset email: {exc}") from exc
 
 
 def verification_error(detail: str, status_code: int = status.HTTP_400_BAD_REQUEST) -> HTTPException:

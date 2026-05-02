@@ -238,15 +238,6 @@
   transform: translateY(-1px);
 }
 
-.profile-menu-backdrop {
-  position: fixed;
-  inset: 0;
-  z-index: 80;
-  border: 0;
-  background: transparent;
-  cursor: default;
-}
-
 .profile-menu {
   position: absolute;
   top: calc(100% + 12px);
@@ -1770,6 +1761,12 @@
   transform: translateY(-1px);
 }
 
+.contact-submit:disabled {
+  cursor: wait;
+  opacity: 0.7;
+  transform: none;
+}
+
 .contact-aside {
   display: grid;
   gap: 14px;
@@ -1838,6 +1835,24 @@ html[data-theme="light"] .app-shell {
   color: #172033;
 }
 
+html[data-theme="light"] h1,
+html[data-theme="light"] h2,
+html[data-theme="light"] h3,
+html[data-theme="light"] h4,
+html[data-theme="light"] strong,
+html[data-theme="light"] label,
+html[data-theme="light"] .brand-text,
+html[data-theme="light"] .profile-menu-label {
+  color: #0f172a;
+}
+
+html[data-theme="light"] p,
+html[data-theme="light"] li,
+html[data-theme="light"] small,
+html[data-theme="light"] span {
+  color: inherit;
+}
+
 html[data-theme="light"] .topbar {
   border-bottom-color: rgba(15, 23, 42, 0.1);
   background: rgba(255, 255, 255, 0.9);
@@ -1852,8 +1867,32 @@ html[data-theme="light"] .icon-button {
   box-shadow: 0 12px 28px rgba(15, 23, 42, 0.08);
 }
 
+html[data-theme="light"] .brand-text span,
+html[data-theme="light"] .hero-title span,
+html[data-theme="light"] .configure-header h2 span,
+html[data-theme="light"] .how-header h2 span,
+html[data-theme="light"] .manifesto-card h2 span,
+html[data-theme="light"] .results-head h2 span {
+  color: #16a34a;
+}
+
 html[data-theme="light"] .text-nav,
 html[data-theme="light"] .footer-link,
+html[data-theme="light"] .brand-lockup,
+html[data-theme="light"] .header-signup,
+html[data-theme="light"] .cta-pill,
+html[data-theme="light"] .hero-card,
+html[data-theme="light"] .hero-card-cta,
+html[data-theme="light"] .hero-secondary,
+html[data-theme="light"] .hero-tertiary,
+html[data-theme="light"] .panel-link,
+html[data-theme="light"] .result-secondary,
+html[data-theme="light"] .auth-secondary,
+html[data-theme="light"] .tag-strip button,
+html[data-theme="light"] .project-card,
+html[data-theme="light"] .difficulty-row,
+html[data-theme="light"] .suggestion-card,
+html[data-theme="light"] .tab-row button,
 html[data-theme="light"] .auth-form input,
 html[data-theme="light"] .suggest-form textarea,
 html[data-theme="light"] .contact-form input,
@@ -1861,11 +1900,35 @@ html[data-theme="light"] .contact-form textarea {
   color: #172033;
 }
 
+html[data-theme="light"] input::placeholder,
+html[data-theme="light"] textarea::placeholder {
+  color: #64748b;
+}
+
+html[data-theme="light"] .topbar .brand-lockup:hover {
+  color: #0f172a;
+}
+
 html[data-theme="light"] .topbar .text-nav:hover,
-html[data-theme="light"] .footer-link:hover {
+html[data-theme="light"] .footer-link:hover,
+html[data-theme="light"] .tag-strip button:hover {
   background: #e9eef6;
   color: #0f172a;
   box-shadow: 0 10px 22px rgba(15, 23, 42, 0.08);
+}
+
+html[data-theme="light"] .header-signup,
+html[data-theme="light"] .cta-pill {
+  border-color: rgba(22, 163, 74, 0.35);
+  background: rgba(34, 197, 94, 0.12);
+  color: #166534;
+}
+
+html[data-theme="light"] .header-signup:hover,
+html[data-theme="light"] .cta-pill:hover {
+  border-color: rgba(22, 163, 74, 0.55);
+  background: rgba(34, 197, 94, 0.18);
+  color: #14532d;
 }
 
 html[data-theme="light"] .quota-pill,
@@ -1886,6 +1949,29 @@ html[data-theme="light"] .contact-form input,
 html[data-theme="light"] .contact-form textarea {
   border-color: rgba(15, 23, 42, 0.12);
   background: #f8fafc;
+}
+
+html[data-theme="light"] .code-block {
+  color: #172033;
+}
+
+html[data-theme="light"] .hero-card-cta,
+html[data-theme="light"] .hero-secondary,
+html[data-theme="light"] .hero-tertiary,
+html[data-theme="light"] .panel-link,
+html[data-theme="light"] .result-secondary,
+html[data-theme="light"] .auth-secondary {
+  border-color: rgba(15, 23, 42, 0.14);
+  background: #f8fafc;
+  color: #172033;
+}
+
+html[data-theme="light"] .hero-primary,
+html[data-theme="light"] .generate-button,
+html[data-theme="light"] .result-primary,
+html[data-theme="light"] .suggest-form button,
+html[data-theme="light"] .contact-submit {
+  color: #052e16;
 }
 
 html[data-theme="light"] .hero-card,
@@ -1910,9 +1996,12 @@ html[data-theme="light"] .auth-modal {
 }
 
 html[data-theme="light"] .hero-copy,
+html[data-theme="light"] .hero-card p,
+html[data-theme="light"] .hero-card ul,
 html[data-theme="light"] .configure-subtext,
 html[data-theme="light"] .configure-header p,
 html[data-theme="light"] .suggest-header p,
+html[data-theme="light"] .contact-header p,
 html[data-theme="light"] .suggestion-card p,
 html[data-theme="light"] .contact-card p,
 html[data-theme="light"] .contact-card a,
@@ -1930,17 +2019,63 @@ html[data-theme="light"] .difficulty-summary,
 html[data-theme="light"] .field-label,
 html[data-theme="light"] .auth-switch button,
 html[data-theme="light"] .auth-form label span,
+html[data-theme="light"] .contact-form label span,
 html[data-theme="light"] .suggest-topics-label {
   color: #536174;
+}
+
+html[data-theme="light"] .section-kicker,
+html[data-theme="light"] .suggestion-meta {
+  color: #15803d;
 }
 
 html[data-theme="light"] .hero-title,
 html[data-theme="light"] .configure-header h2,
 html[data-theme="light"] .results-head h2,
 html[data-theme="light"] .auth-header h3,
+html[data-theme="light"] .hero-card h3,
+html[data-theme="light"] .contact-header h2,
+html[data-theme="light"] .info-card h3,
+html[data-theme="light"] .how-card h3,
+html[data-theme="light"] .project-card strong,
+html[data-theme="light"] .difficulty-row strong,
 html[data-theme="light"] .suggestion-card strong,
-html[data-theme="light"] .contact-card a:hover {
+html[data-theme="light"] .contact-card a:hover,
+html[data-theme="light"] .contact-card a {
   color: #0f172a;
+}
+
+html[data-theme="light"] .project-card span,
+html[data-theme="light"] .suggestion-card svg,
+html[data-theme="light"] .footer-bar {
+  color: #64748b;
+}
+
+html[data-theme="light"] .project-card.active,
+html[data-theme="light"] .difficulty-row.active,
+html[data-theme="light"] .suggestion-card[aria-pressed="true"] {
+  border-color: rgba(22, 163, 74, 0.45);
+  background: rgba(34, 197, 94, 0.12);
+  color: #14532d;
+}
+
+html[data-theme="light"] .tab-row button.active,
+html[data-theme="light"] .auth-switch button.active {
+  border-color: rgba(22, 163, 74, 0.45);
+  background: rgba(34, 197, 94, 0.16);
+  color: #14532d;
+}
+
+html[data-theme="light"] .feedback.success {
+  border-color: rgba(22, 163, 74, 0.28);
+  background: rgba(220, 252, 231, 0.9);
+  color: #14532d;
+}
+
+html[data-theme="light"] .feedback.error {
+  border-color: rgba(190, 18, 60, 0.22);
+  background: rgba(255, 241, 242, 0.95);
+  color: #9f1239;
 }
 
 html[data-theme="light"] .profile-menu {

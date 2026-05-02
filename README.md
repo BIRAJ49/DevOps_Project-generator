@@ -1,6 +1,6 @@
-# ProjectForge
+# ProjectOps
 
-ProjectForge is a full-stack project idea planner and starter-bundle generator. It suggests practical software projects from a local template catalog, expands selected ideas into implementation plans, and can package predefined DevOps starter templates as ZIP and PDF artifacts.
+ProjectOps is a full-stack project idea planner and starter-bundle generator. It suggests practical software projects from a local template catalog, expands selected ideas into implementation plans, and can package predefined DevOps starter templates as ZIP and PDF artifacts.
 
 The app is designed to work without an external AI provider. Project suggestions come from `templates/project_ideas/catalog.json`, which currently supports a broad set of DevOps, cloud, backend, frontend, mobile, AI, data, security, testing, payment, and app-building topics.
 
@@ -53,7 +53,7 @@ DevOps_Project_generator/
 
 ## Template Catalog
 
-ProjectForge has two template layers:
+ProjectOps has two template layers:
 
 - `templates/project_ideas/catalog.json`: topic-based idea suggestions. A normal suggestion request returns 3 ideas; a request such as `50 Kubernetes ideas` returns the full 50-idea set for that topic.
 - `templates/{docker,kubernetes,cicd,terraform}/{beginner,intermediate,advanced}`: downloadable starter project bundles used by the `/api/generate` flow.
@@ -210,6 +210,7 @@ Root `.env` is loaded by the backend.
 | `TRUSTED_PROXY_IPS` | No | Proxy IPs trusted for forwarded client IP headers. |
 | `RESEND_API_KEY` | No | Enables real email delivery through Resend. |
 | `EMAIL_FROM` | No | Sender used for verification and password reset emails. |
+| `CONTACT_RECIPIENT_EMAIL` | No | Inbox that receives contact form messages. Defaults to `terms301@gmail.com`. |
 | `EMAIL_VERIFICATION_CODE_TTL_MINUTES` | No | Verification code lifetime. |
 | `EMAIL_VERIFICATION_RESEND_COOLDOWN_SECONDS` | No | Cooldown before another verification code can be sent. |
 | `EMAIL_VERIFICATION_MAX_ATTEMPTS` | No | Maximum failed verification attempts per code. |

@@ -11,7 +11,7 @@ export default function About() {
               <InfinityLogo size={66} />
             </span>
             <span className="brand-text">
-              Project<span>Forge</span>
+              Project<span>Ops</span>
             </span>
           </Link>
 
@@ -51,7 +51,7 @@ export default function About() {
             <article className="info-card">
               <p className="section-kicker">What we build</p>
               <p>
-                ProjectForge turns rough project goals into structured starter
+                ProjectOps turns rough project goals into structured starter
                 blueprints for web apps, APIs, mobile apps, AI tools, games,
                 dashboards, automation, DevOps, and more.
               </p>

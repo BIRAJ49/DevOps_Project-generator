@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { Link } from "react-router-dom";
 import {
   Archive,
@@ -120,6 +120,7 @@ function App() {
   const [authState, setAuthState] = useState(readStoredSession);
   const [authOpen, setAuthOpen] = useState(false);
   const [profileOpen, setProfileOpen] = useState(false);
+  const profileMenuRef = useRef(null);
   const [themePreference, setThemePreference] = useState(readStoredTheme);
   const [message, setMessage] = useState("");
   const [error, setError] = useState("");
@@ -180,8 +181,21 @@ function App() {
       }
     }
 
+    function handlePointerDown(event) {
+      if (
+        profileMenuRef.current &&
+        !profileMenuRef.current.contains(event.target)
+      ) {
+        setProfileOpen(false);
+      }
+    }
+
+    document.addEventListener("pointerdown", handlePointerDown, true);
     window.addEventListener("keydown", handleKeyDown);
-    return () => window.removeEventListener("keydown", handleKeyDown);
+    return () => {
+      document.removeEventListener("pointerdown", handlePointerDown, true);
+      window.removeEventListener("keydown", handleKeyDown);
+    };
   }, [profileOpen]);
 
   useEffect(() => {
@@ -224,9 +238,13 @@ function App() {
         kicker: "Reset password",
         title: "Send a reset code to your email.",
       },
-      reset: {
+      "reset-code": {
         kicker: "Reset password",
-        title: "Enter the code and choose a new password.",
+        title: "Enter the reset code from your email.",
+      },
+      "reset-password": {
+        kicker: "Reset password",
+        title: "Choose a new password.",
       },
       login: {
         kicker: "Welcome back",
@@ -397,8 +415,38 @@ function App() {
       setResetEmail(response.email || email);
       setVerificationCode("");
       setResetPassword("");
-      setAuthMode("reset");
+      setAuthMode("reset-code");
       setMessage(response.message || "Password reset code sent. Check your email.");
+    } catch (requestError) {
+      setError(requestError.message);
+    } finally {
+      setAuthBusy(false);
+    }
+  }
+
+  async function handleVerifyResetCodeSubmit(event) {
+    event.preventDefault();
+    const email = resetEmail.trim();
+    if (!email) {
+      setError("Enter your email first.");
+      return;
+    }
+
+    setAuthBusy(true);
+    setError("");
+    setMessage("");
+
+    try {
+      const response = await request("/api/verify-reset-code", {
+        method: "POST",
+        body: JSON.stringify({
+          email,
+          code: verificationCode,
+        }),
+      });
+      setResetEmail(response.email || email);
+      setAuthMode("reset-password");
+      setMessage(response.message || "Code verified. Choose a new password.");
     } catch (requestError) {
       setError(requestError.message);
     } finally {
@@ -559,7 +607,7 @@ function App() {
               <InfinityLogo size={66} />
             </span>
             <span className="brand-text">
-              Project<span>Forge</span>
+              Project<span>Ops</span>
             </span>
           </button>
 
@@ -578,7 +626,7 @@ function App() {
 
             <div className="account-actions">
               {signedIn ? (
-                <div className="profile-menu-wrap">
+                <div className="profile-menu-wrap" ref={profileMenuRef}>
                   <button
                     type="button"
                     className="profile-avatar-button"
@@ -592,13 +640,6 @@ function App() {
 
                   {profileOpen ? (
                     <>
-                      <button
-                        type="button"
-                        className="profile-menu-backdrop"
-                        aria-label="Close profile menu"
-                        tabIndex={-1}
-                        onClick={() => setProfileOpen(false)}
-                      />
                       <div className="profile-menu" role="menu">
                         <div className="profile-menu-panel">
                           <div className="profile-menu-head">
@@ -926,7 +967,7 @@ function App() {
       <footer className="footer-bar">
         <div className="footer-left">
           <InfinityLogo size={32} />
-          <span>© 2026 ProjectForge</span>
+          <span>© 2026 ProjectOps</span>
           <span>built for engineers who ship.</span>
         </div>
         <div className="footer-right">
@@ -1072,8 +1113,8 @@ function App() {
                   Back to login
                 </button>
               </form>
-            ) : authMode === "reset" ? (
-              <form className="auth-form" onSubmit={handleResetPasswordSubmit}>
+            ) : authMode === "reset-code" ? (
+              <form className="auth-form" onSubmit={handleVerifyResetCodeSubmit}>
                 <label>
                   <span>Email</span>
                   <input
@@ -1100,6 +1141,25 @@ function App() {
                     required
                   />
                 </label>
+                <button
+                  type="submit"
+                  className="generate-button auth-submit"
+                  disabled={authBusy}
+                >
+                  <span>{authBusy ? "Verifying..." : "Verify code"}</span>
+                  <ArrowRight size={24} />
+                </button>
+                <button
+                  type="button"
+                  className="auth-secondary"
+                  onClick={handleForgotPasswordSubmit}
+                  disabled={authBusy}
+                >
+                  Resend reset code
+                </button>
+              </form>
+            ) : authMode === "reset-password" ? (
+              <form className="auth-form" onSubmit={handleResetPasswordSubmit}>
                 <label>
                   <span>New password</span>
                   <input
@@ -1122,10 +1182,10 @@ function App() {
                 <button
                   type="button"
                   className="auth-secondary"
-                  onClick={handleForgotPasswordSubmit}
+                  onClick={() => setAuthMode("reset-code")}
                   disabled={authBusy}
                 >
-                  Resend reset code
+                  Back to code
                 </button>
               </form>
             ) : (
