@@ -956,6 +956,151 @@ function App() {
                 </ul>
               </article>
             </div>
+
+            {details.milestones?.length ? (
+              <div className="roadmap-section">
+                <div className="roadmap-heading">
+                  <p className="section-kicker">Build roadmap</p>
+                  <h3>Milestones to complete the project</h3>
+                </div>
+                <div className="milestone-list">
+                  {details.milestones.map((milestone) => (
+                    <article className="milestone-card" key={milestone.title}>
+                      <div className="milestone-head">
+                        <h4>{milestone.title}</h4>
+                        <p>{milestone.goal}</p>
+                      </div>
+                      <div className="milestone-columns">
+                        <div>
+                          <p className="section-kicker">Tasks</p>
+                          <ol className="steps-list">
+                            {milestone.steps.map((step) => (
+                              <li key={step}>{step}</li>
+                            ))}
+                          </ol>
+                        </div>
+                        <div>
+                          <p className="section-kicker">Verify</p>
+                          <ul className="compact-list">
+                            {milestone.verification.map((item) => (
+                              <li key={item}>{item}</li>
+                            ))}
+                          </ul>
+                        </div>
+                      </div>
+                    </article>
+                  ))}
+                </div>
+              </div>
+            ) : null}
+
+            <div className="roadmap-grid">
+              {details.suggested_file_structure?.length ? (
+                <article className="info-card">
+                  <p className="section-kicker">Suggested file structure</p>
+                  <div className="definition-list">
+                    {details.suggested_file_structure.map((file) => (
+                      <div key={file.path}>
+                        <strong>{file.path}</strong>
+                        <span>{file.purpose}</span>
+                      </div>
+                    ))}
+                  </div>
+                </article>
+              ) : null}
+
+              {details.api_contracts?.length ? (
+                <article className="info-card">
+                  <p className="section-kicker">API contract</p>
+                  <div className="api-contract-list">
+                    {details.api_contracts.map((endpoint) => (
+                      <div key={`${endpoint.method}-${endpoint.path}`}>
+                        <code>{endpoint.method}</code>
+                        <strong>{endpoint.path}</strong>
+                        <span>{endpoint.purpose}</span>
+                      </div>
+                    ))}
+                  </div>
+                </article>
+              ) : null}
+            </div>
+
+            <div className="roadmap-grid">
+              {details.data_model?.length ? (
+                <article className="info-card">
+                  <p className="section-kicker">Data model</p>
+                  <div className="data-model-list">
+                    {details.data_model.map((entity) => (
+                      <div key={entity.name}>
+                        <strong>{entity.name}</strong>
+                        <p>{entity.notes}</p>
+                        <span>{entity.fields.join(", ")}</span>
+                      </div>
+                    ))}
+                  </div>
+                </article>
+              ) : null}
+
+              <article className="info-card">
+                <p className="section-kicker">Testing and deployment</p>
+                {details.test_plan?.length ? (
+                  <>
+                    <h4 className="mini-heading">Test plan</h4>
+                    <ul className="compact-list">
+                      {details.test_plan.map((item) => (
+                        <li key={item}>{item}</li>
+                      ))}
+                    </ul>
+                  </>
+                ) : null}
+
+                {details.deployment_steps?.length ? (
+                  <>
+                    <h4 className="mini-heading">Deployment steps</h4>
+                    <ol className="steps-list">
+                      {details.deployment_steps.map((step) => (
+                        <li key={step}>{step}</li>
+                      ))}
+                    </ol>
+                  </>
+                ) : null}
+              </article>
+            </div>
+
+            {details.next_improvements?.length ? (
+              <article className="info-card next-improvements">
+                <p className="section-kicker">Next improvements</p>
+                <ul className="compact-list">
+                  {details.next_improvements.map((item) => (
+                    <li key={item}>{item}</li>
+                  ))}
+                </ul>
+              </article>
+            ) : null}
+
+            {details.code_examples?.length ? (
+              <div className="code-surface">
+                <div className="code-head">
+                  <div>
+                    <p className="section-kicker">Code examples</p>
+                    <h3>Starter files for this project</h3>
+                  </div>
+                </div>
+                <div className="code-example-list">
+                  {details.code_examples.map((file) => (
+                    <article className="code-example-card" key={file.path}>
+                      <div className="code-example-meta">
+                        <strong>{file.path}</strong>
+                        <span>{file.language}</span>
+                      </div>
+                      <pre className="code-block">
+                        <code>{file.content}</code>
+                      </pre>
+                    </article>
+                  ))}
+                </div>
+              </div>
+            ) : null}
           </section>
         ) : detailsBusy ? (
           <section className="feedback-strip" id="details">

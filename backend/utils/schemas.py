@@ -78,6 +78,30 @@ class ProjectDetailsRequest(BaseModel):
     suggestion: Suggestion
 
 
+class ProjectMilestone(BaseModel):
+    title: str
+    goal: str
+    steps: list[str]
+    verification: list[str]
+
+
+class ProjectFileSuggestion(BaseModel):
+    path: str
+    purpose: str
+
+
+class ProjectApiContract(BaseModel):
+    method: str
+    path: str
+    purpose: str
+
+
+class ProjectDataEntity(BaseModel):
+    name: str
+    fields: list[str]
+    notes: str
+
+
 class ProjectDetailsResponse(BaseModel):
     title: str
     category: Annotated[str, StringConstraints(strip_whitespace=True, min_length=2, max_length=80)]
@@ -89,6 +113,14 @@ class ProjectDetailsResponse(BaseModel):
     implementation_steps: list[str]
     deliverables: list[str]
     risks: list[str]
+    milestones: list[ProjectMilestone] = []
+    suggested_file_structure: list[ProjectFileSuggestion] = []
+    api_contracts: list[ProjectApiContract] = []
+    data_model: list[ProjectDataEntity] = []
+    test_plan: list[str] = []
+    deployment_steps: list[str] = []
+    next_improvements: list[str] = []
+    code_examples: list[CodeFile] = []
     is_authenticated: bool = False
     guest_requests_remaining: int | None = None
 

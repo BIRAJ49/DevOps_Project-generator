@@ -79,7 +79,7 @@ For local development, set these values in `.env`:
 
 ```env
 JWT_SECRET_KEY=replace-this-with-at-least-32-characters
-DATABASE_URL=postgresql+psycopg://postgres:postgres@127.0.0.1:5432/devops_project_generator
+DATABASE_URL=postgresql+psycopg://username:password@ep-example-region.aws.neon.tech/devops_project_generator?sslmode=require
 FRONTEND_ORIGINS=http://localhost:5173,http://127.0.0.1:5173
 ARTIFACT_STORAGE_BACKEND=local
 ```
@@ -205,7 +205,7 @@ Root `.env` is loaded by the backend.
 | `JWT_SECRET_KEY` | Yes | Secret used to sign JWT access tokens. Must be at least 32 characters. |
 | `JWT_ALGORITHM` | No | JWT signing algorithm. Defaults to `HS256`. |
 | `ACCESS_TOKEN_EXPIRE_MINUTES` | No | Access token lifetime. Defaults to `60`. |
-| `DATABASE_URL` | Yes | PostgreSQL SQLAlchemy connection URL. |
+| `DATABASE_URL` | Yes | Neon/PostgreSQL SQLAlchemy connection URL using `postgresql+psycopg://...?...sslmode=require`. |
 | `FRONTEND_ORIGINS` | No | Comma-separated allowed browser origins. |
 | `TRUSTED_PROXY_IPS` | No | Proxy IPs trusted for forwarded client IP headers. |
 | `RESEND_API_KEY` | No | Enables real email delivery through Resend. |
@@ -307,7 +307,7 @@ docker compose down -v
 ## Deployment Checklist
 
 - Set a strong `JWT_SECRET_KEY`.
-- Use a managed PostgreSQL database and update `DATABASE_URL`.
+- Use a Neon PostgreSQL database and update `DATABASE_URL`.
 - Set production `FRONTEND_ORIGINS`.
 - Configure email delivery if public signup is enabled.
 - Use `ARTIFACT_STORAGE_BACKEND=s3` for stateless deployments.

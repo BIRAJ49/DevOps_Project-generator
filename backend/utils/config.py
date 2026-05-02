@@ -11,9 +11,7 @@ BASE_DIR = Path(__file__).resolve().parents[2]
 class Settings(BaseSettings):
     app_name: str = "ProjectOps API"
     api_prefix: str = "/api"
-    database_url: str = (
-        "postgresql+psycopg://postgres:postgres@127.0.0.1:5432/devops_project_generator"
-    )
+    database_url: str = Field(..., min_length=1)
     jwt_secret_key: str = Field(..., min_length=32)
     jwt_algorithm: Literal["HS256", "HS384", "HS512"] = "HS256"
     access_token_expire_minutes: int = 60
@@ -53,6 +51,18 @@ class Settings(BaseSettings):
     def parse_csv_list(cls, value: str | list[str]) -> list[str]:
         if isinstance(value, str):
             return [item.strip() for item in value.split(",") if item.strip()]
+        return value
+
+    @field_validator("database_url")
+    @classmethod
+    def validate_database_url(cls, value: str) -> str:
+        if not value.startswith("postgresql+psycopg://"):
+            raise ValueError(
+                "DATABASE_URL must use the postgresql+psycopg:// SQLAlchemy URL format"
+            )
+        if ".neon.tech" in value and "sslmode=require" not in value:
+            separator = "&" if "?" in value else "?"
+            return f"{value}{separator}sslmode=require"
         return value
 
     @field_validator(
