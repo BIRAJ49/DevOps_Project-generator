@@ -1,0 +1,51 @@
+name: Backend Tests
+
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+
+    services:
+      postgres:
+        image: postgres:16-alpine
+        env:
+          POSTGRES_DB: autohealops
+          POSTGRES_USER: autohealops
+          POSTGRES_PASSWORD: autohealops
+        ports:
+          - 5432:5432
+        options: >-
+          --health-cmd "pg_isready -U autohealops -d autohealops"
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 5
+
+    env:
+      DATABASE_URL: postgresql+psycopg://autohealops:autohealops@127.0.0.1:5432/autohealops
+      JWT_SECRET_KEY: ci-secret-change-before-prod-123456789
+      FRONTEND_ORIGINS: http://localhost:8080,http://127.0.0.1:8080
+      ARTIFACT_STORAGE_BACKEND: local
+      EMAIL_FROM: ProjectOps <no-reply@localhost>
+      CONTACT_RECIPIENT_EMAIL: local@example.com
+
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.13"
+          cache: pip
+          cache-dependency-path: backend/requirements.txt
+
+      - name: Install backend dependencies
+        run: python -m pip install -r backend/requirements.txt
+
+      - name: Run backend tests
+        run: python -m pytest backend/tests

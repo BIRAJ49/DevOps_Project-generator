@@ -1,0 +1,35 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: autohealops
+  namespace: autohealops
+  labels:
+    app.kubernetes.io/name: autohealops
+    app.kubernetes.io/part-of: autohealops-platform
+spec:
+  ingressClassName: nginx
+  rules:
+    - host: autohealops.local
+      http:
+        paths:
+          - path: /
+            pathType: Prefix
+            backend:
+              service:
+                name: autohealops-frontend
+                port:
+                  name: http
+          - path: /api
+            pathType: Prefix
+            backend:
+              service:
+                name: autohealops-backend
+                port:
+                  name: http
+          - path: /health
+            pathType: Exact
+            backend:
+              service:
+                name: autohealops-backend
+                port:
+                  name: http

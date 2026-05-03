@@ -1,6 +1,8 @@
 .DS_Store
 .vscode/
 .env
+.env.local
+.env.*.local
 backend/.env
 .venv/
 __pycache__/

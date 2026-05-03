@@ -72,15 +72,21 @@ cd DevOps_Project_generator
 ### 2. Create environment files
 
 ```bash
-cp .env.example .env
+test -f .env || cp .env.example .env
+```
+
+Do not run `cp .env.example .env` if you already have a `.env` with real credentials. Back it up first:
+
+```bash
+cp .env .env.backup
 ```
 
 For local development, set these values in `.env`:
 
 ```env
+DATABASE_URL=postgresql+psycopg://autohealops:autohealops@postgres:5432/autohealops
 JWT_SECRET_KEY=replace-this-with-at-least-32-characters
-DATABASE_URL=postgresql+psycopg://username:password@ep-example-region.aws.neon.tech/devops_project_generator?sslmode=require
-FRONTEND_ORIGINS=http://localhost:5173,http://127.0.0.1:5173
+FRONTEND_ORIGINS=http://localhost:8080,http://127.0.0.1:8080,http://localhost:5173,http://127.0.0.1:5173
 ARTIFACT_STORAGE_BACKEND=local
 ```
 

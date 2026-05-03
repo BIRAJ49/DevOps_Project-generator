@@ -1,4 +1,22 @@
 services:
+  postgres:
+    image: postgres:16-alpine
+    container_name: autohealops-postgres
+    environment:
+      POSTGRES_DB: autohealops
+      POSTGRES_USER: autohealops
+      POSTGRES_PASSWORD: autohealops
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres-data:/var/lib/postgresql/data
+    healthcheck:
+      test: [ "CMD-SHELL", "pg_isready -U autohealops -d autohealops" ]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+    restart: unless-stopped
+
   backend:
     build:
       context: .
@@ -9,6 +27,9 @@ services:
       - .env
     ports:
       - "8000:8000"
+    depends_on:
+      postgres:
+        condition: service_healthy
     restart: unless-stopped
     healthcheck:
       test:
@@ -44,3 +65,6 @@ services:
       timeout: 5s
       retries: 3
       start_period: 10s
+
+volumes:
+  postgres-data:
