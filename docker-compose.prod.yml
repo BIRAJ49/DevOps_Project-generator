@@ -1,10 +1,29 @@
 services:
+  postgres:
+    image: postgres:16-alpine
+    container_name: autohealops-prod-postgres
+    environment:
+      POSTGRES_DB: ${POSTGRES_DB:-autohealops}
+      POSTGRES_USER: ${POSTGRES_USER:-autohealops}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-autohealops}
+    volumes:
+      - postgres-prod-data:/var/lib/postgresql/data
+    healthcheck:
+      test: [ "CMD-SHELL", "pg_isready -U ${POSTGRES_USER:-autohealops} -d ${POSTGRES_DB:-autohealops}" ]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+    restart: unless-stopped
+
   backend:
     image: ghcr.io/biraj49/devops_project-generator/backend:${IMAGE_TAG:-latest}
     env_file:
       - .env
     expose:
       - "8000"
+    depends_on:
+      postgres:
+        condition: service_healthy
     restart: unless-stopped
     healthcheck:
       test:
@@ -50,3 +69,6 @@ services:
         reservations:
           cpus: "0.10"
           memory: 128M
+
+volumes:
+  postgres-prod-data:
