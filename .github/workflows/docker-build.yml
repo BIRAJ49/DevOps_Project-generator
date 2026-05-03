@@ -1,0 +1,21 @@
+name: Docker Build
+
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v4
+
+      - name: Build backend image
+        run: docker build -t autohealops-backend:ci -f backend/Dockerfile .
+
+      - name: Build frontend image
+        run: docker build -t autohealops-frontend:ci frontend
