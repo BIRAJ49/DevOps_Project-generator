@@ -47,6 +47,8 @@ jobs:
         uses: docker/build-push-action@v6
         with:
           context: frontend
+          build-args: |
+            VITE_API_BASE_URL=
           push: ${{ github.event_name == 'push' }}
           tags: |
             ${{ env.REGISTRY }}/${{ env.IMAGE_NAMESPACE }}/frontend:latest
