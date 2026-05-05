@@ -50,7 +50,7 @@ services:
   frontend:
     image: ghcr.io/biraj49/devops_project-generator/frontend:${IMAGE_TAG:-latest}
     ports:
-      - "${FRONTEND_PORT:-8080}:8080"
+      - "127.0.0.1:${FRONTEND_PORT:-8080}:8080"
     depends_on:
       backend:
         condition: service_healthy
