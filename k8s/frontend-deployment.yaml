@@ -25,8 +25,11 @@ spec:
         app.kubernetes.io/component: web
         app.kubernetes.io/part-of: autohealops-platform
     spec:
+      serviceAccountName: autohealops-app
       securityContext:
         runAsNonRoot: true
+        runAsUser: 101
+        runAsGroup: 101
         seccompProfile:
           type: RuntimeDefault
       containers:

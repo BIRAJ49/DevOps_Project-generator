@@ -7,7 +7,7 @@ metadata:
     app.kubernetes.io/name: autohealops
     app.kubernetes.io/part-of: autohealops-platform
 spec:
-  ingressClassName: nginx
+  ingressClassName: traefik
   rules:
     - host: autohealops.local
       http:

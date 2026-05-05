@@ -1,0 +1,80 @@
+apiVersion: networking.k8s.io/v1
+kind: NetworkPolicy
+metadata:
+  name: autohealops-default-deny-ingress
+  namespace: autohealops
+  labels:
+    app.kubernetes.io/name: autohealops
+    app.kubernetes.io/part-of: autohealops-platform
+spec:
+  podSelector: {}
+  policyTypes:
+    - Ingress
+---
+apiVersion: networking.k8s.io/v1
+kind: NetworkPolicy
+metadata:
+  name: allow-frontend-http
+  namespace: autohealops
+  labels:
+    app.kubernetes.io/name: autohealops-frontend
+    app.kubernetes.io/part-of: autohealops-platform
+spec:
+  podSelector:
+    matchLabels:
+      app.kubernetes.io/name: autohealops-frontend
+  policyTypes:
+    - Ingress
+  ingress:
+    - ports:
+        - protocol: TCP
+          port: 8080
+---
+apiVersion: networking.k8s.io/v1
+kind: NetworkPolicy
+metadata:
+  name: allow-backend-http
+  namespace: autohealops
+  labels:
+    app.kubernetes.io/name: autohealops-backend
+    app.kubernetes.io/part-of: autohealops-platform
+spec:
+  podSelector:
+    matchLabels:
+      app.kubernetes.io/name: autohealops-backend
+  policyTypes:
+    - Ingress
+  ingress:
+    - from:
+        - podSelector:
+            matchLabels:
+              app.kubernetes.io/name: autohealops-frontend
+        - namespaceSelector:
+            matchLabels:
+              kubernetes.io/metadata.name: kube-system
+      ports:
+        - protocol: TCP
+          port: 8000
+---
+apiVersion: networking.k8s.io/v1
+kind: NetworkPolicy
+metadata:
+  name: allow-database-from-backend
+  namespace: autohealops
+  labels:
+    app.kubernetes.io/name: postgres
+    app.kubernetes.io/part-of: autohealops-platform
+spec:
+  podSelector:
+    matchLabels:
+      app.kubernetes.io/name: postgres
+  policyTypes:
+    - Ingress
+  ingress:
+    - from:
+        - podSelector:
+            matchLabels:
+              app.kubernetes.io/name: autohealops-backend
+      ports:
+        - protocol: TCP
+          port: 5432
